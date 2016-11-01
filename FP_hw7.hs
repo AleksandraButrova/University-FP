@@ -10,8 +10,28 @@
 getPerimeter [(1,2)] - должно получиться 4
 getPerimeter [(1,2),(2,3)] - должно получиться 8
 getPerimeter [(3,5),(4,6),(4,5),(3,6)] - должно получиться 8-}
+import Data.List
+
+getEdgeList [s] edgeList = (fst s, snd s, fst s - 1, snd s) : 
+                           (fst s, snd s, fst s, snd s - 1) :
+                           (fst s - 1, snd s, fst s - 1, snd s - 1) : 
+                           (fst s, snd s - 1, fst s - 1, snd s - 1) : edgeList
+
+getEdgeList (s:shape) edgeList = getEdgeList shape ((fst s, snd s, fst s - 1, snd s) : 
+                                                    (fst s, snd s, fst s, snd s - 1) :
+                                                    (fst s - 1, snd s, fst s - 1, snd s - 1) : 
+                                                    (fst s, snd s - 1, fst s - 1, snd s - 1) : edgeList)
 
 
+deleteOne c [] nlst = nlst
+deleteOne c (l:lst) nlst = if c == l
+                           then delete l lst
+                           else l:nlst
+
+deleteRepeated [] nlst = nlst
+deleteRepeated (l:lst) nlst = deleteRepeated lst (deleteOne l lst nlst)--map (\l -> deleteOne l lst nlst) lst 
+
+getPerimeter shape = deleteRepeated (getEdgeList shape []) []
 
 
 
