@@ -20,8 +20,7 @@ f [1, 3, 5, 2, 20, 25, 2]
 Замечание: 
 - В текст задачи включите, пожалуйста, определение find из условия. Иначе тесты не пройдут.--}
 
-find cond (x:xs) =
-                    if cond x
+find cond (x:xs) =  if cond x
                     then (x, xs)
                     else find cond xs
                     
@@ -60,13 +59,14 @@ f [1,6,5,7,1,2]
 должно вернуться (7, [1,2]) --}
 
 
+
+
 infixr 9 >>==
 f2 >>== f1  = \x -> let
-                     pair1 = f1 x
-                     pair2 = f2 ( > fst pair1) snd pair1
-                    in pair2
+                     pair = f1 x
+                    in f2 (fst pair) (snd pair)
 
-test = find >>== find (>3)
+test = (\x -> find (>x) )>>== find (>3)
     
 
 
@@ -182,7 +182,7 @@ toInt (\ f x -> f (f (f x)))
 Замечание: 
 - Задача очень простая, пишется в одну строку.--}
 
-toInt f = f (+1) 0
+toInt g = g (+1) 0
 
 
 
